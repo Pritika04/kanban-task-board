@@ -362,7 +362,10 @@ function App() {
       (dueDate.getTime() - new Date().setHours(0, 0, 0, 0)) / 86400000,
     )
 
-    return daysUntilDue <= 2
+    const isOverdue = daysUntilDue < 0
+    const isDueSoon = daysUntilDue >= 0 && daysUntilDue <= 2
+
+    return isOverdue || isDueSoon
   }).length
 
   const completionRate = tasks.length > 0 ? Math.round((completedCount / tasks.length) * 100) : 0
@@ -504,7 +507,7 @@ function App() {
           <div className="stat-meter"><span style={{ width: `${completionRate}%` }} /></div>
         </article>
         <article>
-          <p>Due Soon</p>
+          <p>Due Soon + Overdue</p>
           <strong>{dueSoonCount}</strong>
           <div className="stat-meter warning"><span style={{ width: `${urgencyRate}%` }} /></div>
         </article>
